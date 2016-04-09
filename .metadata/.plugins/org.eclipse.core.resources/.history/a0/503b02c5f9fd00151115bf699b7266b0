@@ -1,0 +1,14 @@
+package user.VIEW;
+
+import javax.swing.JFrame;
+
+public class ChatView {
+
+	public JFrame janela;
+	
+	public ChatView()
+	{
+		janela = new JFrame("Chat");
+	}
+	
+}

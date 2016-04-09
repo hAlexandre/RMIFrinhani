@@ -1,0 +1,80 @@
+package user.VIEW;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import java.awt.GridLayout;
+import java.awt.ScrollPane;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
+
+public class ChatView {
+
+	public JFrame janela;
+	public JTextArea mensagem, historico ;
+	public JScrollPane scrollPane;
+	public JButton enviar;
+	private JLabel lblUsuriosConectados;
+	private JScrollPane scrollPane_2;
+	
+	public ChatView()
+	{
+		janela = new JFrame("Chat");
+		
+		janela.setVisible(true);
+		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janela.getContentPane().setLayout(null);
+		janela.setSize(800, 600);
+		mensagem = new JTextArea();		
+		
+		scrollPane = new JScrollPane(mensagem);		
+		scrollPane.setVisible(true);
+		scrollPane.setEnabled(true);
+		janela.getContentPane().add(scrollPane);
+		scrollPane.setBounds(198,486,477,38);
+		//		janela.getContentPane().setBackground(Color.green);
+				
+				
+		mensagem.setRows(1);
+		mensagem.setLineWrap(true);
+		mensagem.setBounds(0,0,100,70);
+		
+		enviar = new JButton("Enviar");
+		
+		janela.getContentPane().add(enviar);
+		enviar.setBounds(685,486,89,38);
+		
+		
+		lblUsuriosConectados = new JLabel("Usuários Conectados");
+		lblUsuriosConectados.setForeground(Color.BLUE);
+		lblUsuriosConectados.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblUsuriosConectados.setBounds(24, 14, 118, 20);				
+		janela.getContentPane().add(lblUsuriosConectados);
+		janela.repaint();
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 45, 164, 479);
+		janela.getContentPane().add(scrollPane_1);
+		
+		
+		historico = new JTextArea();
+		scrollPane_2 = new JScrollPane(historico);
+		historico.setEditable(false);
+		scrollPane_2.setBounds(198, 45, 576, 406);
+		janela.getContentPane().add(scrollPane_2);
+		
+		JCheckBox chckbxPressionarEnterPara = new JCheckBox("Pressionar enter para enviar");
+		chckbxPressionarEnterPara.setBounds(208, 531, 180, 23);
+		janela.getContentPane().add(chckbxPressionarEnterPara);
+
+	}
+}

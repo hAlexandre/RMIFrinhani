@@ -1,0 +1,12 @@
+package user.CONTROL;
+
+import user.VIEW.ChatView;
+
+public class ChatControl {
+
+	
+	public ChatControl(ChatView view)
+	{
+		
+	}
+}
