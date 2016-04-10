@@ -1,0 +1,8 @@
+package user.CONTROL;
+
+public class CanaisControl {
+	public CanaisControl()
+	{
+		
+	}
+}

@@ -1,0 +1,13 @@
+package user.CONTROL;
+
+import user.VIEW.CanaisView;
+
+public class CanaisControl {
+	
+	private CanaisView view;
+	
+	public CanaisControl(CanaisView)
+	{
+		
+	}
+}

@@ -4,12 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.plaf.metal.MetalPopupMenuSeparatorUI;
+
+import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
 import org.jgroups.Receiver;
@@ -21,22 +24,23 @@ import user.VIEW.ChatView;
 
 public class ChatControl extends ReceiverAdapter{
 	
-	JChannel channel;
-	ArrayList<String> usuarios;
-	ChatView view;
+	JChannel channel;	
+	String canal;
+	ChatView chat;
 	int controleShift = 0, controleEnter=0;
-	final List<String> state=new LinkedList<String>();
+	final List<String> state = new LinkedList<String>();
+	List<Address> usuarios;
+	Address id;
 	
-
 	
-	public void viewAccepted(View new_view) {
-	        System.out.println("** view: " + new_view);
+	public void viewAccepted(View new_view) {					        
+	        usuarios = new_view.getMembers();	        
+	        atualizaUsuarios();
     }
 	
 	public void receive(Message msg) {
-        String line=msg.getSrc() + ": " + msg.getObject();
-        System.out.println(line);
-        view.historico.append(line+"\n");
+        String line=msg.getSrc() + ": " + msg.getObject();        
+        chat.historico.append(line+"\n");
         synchronized(state) {
             state.add(line);
         }
@@ -73,13 +77,13 @@ public class ChatControl extends ReceiverAdapter{
     }
 	
 	void start() throws Exception {		
-        channel=new JChannel();
+        channel=new JChannel();        
         channel.setReceiver(this);
-        channel.connect("ChatCluster");
-        channel.getState(null, 10000);
+        channel.connect(canal);        
+        chat.canal.setText(canal);
+        channel.getState(null, 10000);        
         atualizaUsuarios();
-        eventLoop();
-        channel.close();
+        id = usuarios.get(usuarios.size()-1);        
     }
 	
 	
@@ -89,14 +93,21 @@ public class ChatControl extends ReceiverAdapter{
         }
     }
 	
-	public ChatControl(ChatView view)
+	public ChatControl(ChatView view, String s)
 	{
-		this.view = view;		
+		this.chat = view;		
+		this.canal = s;
 		view.enviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {										
-				view.historico.append("Usuário x diz:\n"+view.mensagem.getText()+"\n");
-				view.mensagem.setText("");
-				view.mensagem.grabFocus();
+				if(view.mensagem.getText().equals("\n"))
+					view.mensagem.setText("");
+				else
+				{
+					enviar(view.mensagem.getText());
+					view.mensagem.setText("");
+					view.mensagem.grabFocus();
+				}
+				
 			}
 		});
 		
@@ -115,19 +126,11 @@ public class ChatControl extends ReceiverAdapter{
 						}
 						else
 						{
-//							view.historico.append("Usuário x diz:\n"+str.trim());
-//							view.historico.append("\n");
 							view.enviar.grabFocus();					
 							view.mensagem.setText("");					
-							view.mensagem.grabFocus();
-							Message msg=new Message(null, null,str.trim());
-			                try {
-								channel.send(msg);
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-					
+							view.mensagem.grabFocus();	
+							enviar(str);
+							System.out.println(id);
 						}
 					}
 				}
@@ -136,8 +139,7 @@ public class ChatControl extends ReceiverAdapter{
 					controleShift = 0;
 				
 			}
-			
-			
+						
 			@Override
 			public void keyPressed(KeyEvent arg1) {
 //				Verificação shift+enter
@@ -154,15 +156,29 @@ public class ChatControl extends ReceiverAdapter{
 		});
 	}
 	
-	public void atualizaUsuarios()
-	{
-		usuarios = new ArrayList<>();
-		usuarios.add("Usuario x");
-		usuarios.sort(null);
-		for(String user : usuarios)
+	private void atualizaUsuarios()
+	{		
+		chat.usuarios.setText("");
+		ArrayList<String> aux = new ArrayList<>();	
+		for(Address u : usuarios)
+		{			
+			aux.add(u.toString());
+		}
+		aux.sort(null);
+		for(String s : aux)
 		{
-			view.usuarios.append(user+"\n");
+			chat.usuarios.append(s+"\n");
 		}
 	}
 	
+	private void enviar(String str)
+	{
+		Message msg=new Message(null, null,str.trim());
+        try {
+			channel.send(msg);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}			        
+	}
 }

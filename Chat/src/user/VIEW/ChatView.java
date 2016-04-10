@@ -20,6 +20,7 @@ public class ChatView {
 	public JCheckBox chckbxPressionarEnterPara;
 	private JLabel lblUsuriosConectados;
 	private JScrollPane scrollPane_2;
+	public JLabel canal;
 	
 	public ChatView()
 	{
@@ -70,6 +71,10 @@ public class ChatView {
 		chckbxPressionarEnterPara.setBounds(208, 531, 201, 23);
 		janela.getContentPane().add(chckbxPressionarEnterPara);
 		chckbxPressionarEnterPara.setSelected(true);
+		
+		canal = new JLabel("New label");
+		canal.setBounds(286, 17, 144, 14);
+		janela.getContentPane().add(canal);
 		janela.repaint();
 
 	}

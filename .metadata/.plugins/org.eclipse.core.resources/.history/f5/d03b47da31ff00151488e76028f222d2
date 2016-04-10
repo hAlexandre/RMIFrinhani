@@ -1,0 +1,24 @@
+package user.CONTROL;
+
+import java.awt.event.ActionEvent;
+
+import user.VIEW.CanaisView;
+
+public class CanaisControl {
+	
+	private CanaisView view;
+	
+	public CanaisControl(CanaisView c)
+	{
+		view = c;
+	}
+	
+//	Controlar entrada de canais
+	
+	public void actionPerformed(ActionEvent e)
+	{
+		
+		
+		
+	}
+}
