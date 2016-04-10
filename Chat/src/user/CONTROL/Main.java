@@ -1,13 +1,17 @@
 package user.CONTROL;
 
+import org.jgroups.View;
+
 import user.VIEW.ChatView;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		
 		ChatView chatView = new ChatView();
-		ChatControl chat = new ChatControl(chatView);
-		chat.atualizaUsuarios();
+		System.out.println("OI");
+		new ChatControl(chatView).start();		
+				
 	}
 
 }
