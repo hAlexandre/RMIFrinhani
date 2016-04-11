@@ -18,4 +18,9 @@
 <fullyQualifiedTypeName name="javax.swing.JScrollPane"/>
 <fullyQualifiedTypeName name="javax.swing.JButton"/>
 <fullyQualifiedTypeName name="user.CONTROL.ChatControl"/>
+<fullyQualifiedTypeName name="org.jgroups.Address"/>
+<fullyQualifiedTypeName name="org.jgroups.client.StompConnection"/>
+<fullyQualifiedTypeName name="org.jgroups.protocols.MPING"/>
+<fullyQualifiedTypeName name="org.jgroups.stack.ProtocolStack"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
 </qualifiedTypeNameHistroy>

@@ -12,6 +12,7 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="h"/>
 			<item value="connect"/>
 			<item value="huhu"/>
 			<item value="&quot;OI"/>
@@ -19,7 +20,6 @@
 			<item value="start"/>
 			<item value="print"/>
 			<item value="Usuario x"/>
-			<item value="Usua"/>
 		</list>
 		<list key="replacehistory">
 		</list>
