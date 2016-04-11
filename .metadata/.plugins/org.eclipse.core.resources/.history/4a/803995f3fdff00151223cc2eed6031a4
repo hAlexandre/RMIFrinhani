@@ -58,7 +58,7 @@ public class ChatControl extends ReceiverAdapter{
 		String str = System.getProperty("user.dir");
 		str = str.concat(new String("\\udp.xml"));									
         channel=new JChannel();   
-        channel.setReceiver(this);   
+       channel.setReceiver(this);   
         channel.connect(canal);           
         channel.getProtocolStack().findProtocol(TP.class).setValue("bind_addr",InetAddress.getByName("192.168.0.103") );
         

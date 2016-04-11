@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Array;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -57,10 +56,15 @@ public class ChatControl extends ReceiverAdapter{
 	void start() throws Exception {	
 		String str = System.getProperty("user.dir");
 		str = str.concat(new String("\\udp.xml"));									
-        channel=new JChannel();   
-        channel.setReceiver(this);   
+        channel=new JChannel();
+        
+//        teste
+        Object o=Class.forName(str1).newInstance();
+        Object teste = (Object) str1;
+        System.out.println(str1);     
+       channel.setReceiver(this);   
         channel.connect(canal);           
-        channel.getProtocolStack().findProtocol(TP.class).setValue("bind_addr",InetAddress.getByName("192.168.0.103") );
+        channel.getProtocolStack().findProtocol(TP.class).setValue("bind_addr", teste.getClass());
         
         chat.canal.setText(canal);      
         atualizaUsuarios();

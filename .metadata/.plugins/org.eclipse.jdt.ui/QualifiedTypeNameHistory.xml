@@ -23,4 +23,8 @@
 <fullyQualifiedTypeName name="org.jgroups.protocols.MPING"/>
 <fullyQualifiedTypeName name="org.jgroups.stack.ProtocolStack"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="org.jgroups.JChannel"/>
+<fullyQualifiedTypeName name="org.jgroups.protocols.TP"/>
+<fullyQualifiedTypeName name="java.lang.Object"/>
+<fullyQualifiedTypeName name="java.net.InetAddress"/>
 </qualifiedTypeNameHistroy>
