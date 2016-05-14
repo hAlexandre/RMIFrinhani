@@ -51,12 +51,30 @@
 	<section name="FatJarPackageWizard">
 		<item value="D:\Workspace\RMIFrinhani" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
 		<item value="Main - Chat" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
-		<item value="C:\Users\Alexandre A\Desktop\chatzera.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="C:\Users\Alexandre A\Desktop\chatrede43_1.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
 		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
 		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
-			<item value="C:\Users\Alexandre A\Desktop\chatzera.jar"/>
-			<item value="C:\Users\Alexandre A\Desktop\chat.jar"/>
+			<item value="C:\Users\Alexandre A\Desktop\chatrede43_1.jar"/>
+			<item value="F:\chatrede43_1.jar"/>
+			<item value="F:\chatrede43_0.jar"/>
+			<item value="F:\chatrede43_32.jar"/>
+			<item value="F:\chatrede111.jar"/>
+			<item value="C:\Users\Alexandre A\Desktop\chatrede111.jar"/>
+			<item value="F:\chatrede.jar"/>
+			<item value="F:\chatgate.jar"/>
+			<item value="F:\chatip.jar"/>
+			<item value="G:\chat430.jar"/>
+			<item value="G:\chat431.jar"/>
+			<item value="G:\chat4332.jar"/>
+			<item value="G:\unifei81206jar.jar"/>
+			<item value="G:\unifei9584.jar"/>
+			<item value="G:\unifei800.jar"/>
+			<item value="G:\unifei8000.jar"/>
+			<item value="G:\unifei801.jar"/>
+			<item value="G:\unifei1.jar"/>
+			<item value="G:\unifei0.jar"/>
+			<item value="G:\unifei.jar"/>
 		</list>
 		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
 			<item value="D:\Workspace\RMIFrinhani.xml"/>
@@ -78,7 +96,7 @@
 	<section name="quick_assist_proposal_size">
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item value="2" key="pageIndex"/>
+		<item value="0" key="pageIndex"/>
 	</section>
 	<section name="completion_proposal_size">
 	</section>

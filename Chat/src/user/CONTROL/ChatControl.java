@@ -1,17 +1,27 @@
 package user.CONTROL;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.lang.reflect.Array;
 import java.net.InetAddress;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
-import javax.swing.plaf.metal.MetalPopupMenuSeparatorUI;
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
 
 import org.jgroups.Address;
 import org.jgroups.JChannel;
@@ -29,44 +39,89 @@ import user.VIEW.ChatView;
 
 public class ChatControl extends ReceiverAdapter{
 	public static String str1 = new String("192.168.10.101");
-	JChannel channel;	
+	private JChannel channel;	
 	String canal;
 	ChatView chat;
 	int controleShift = 0, controleEnter=0;
 	final List<String> state = new LinkedList<String>();
 	List<Address> usuarios;
 	Address id;
+	ArrayList<String> bloqueados;
 	
-	
-	public void viewAccepted(View new_view) {					        
-	        usuarios = new_view.getMembers();	        
-	        atualizaUsuarios();
+	public void viewAccepted(View new_view) {
+		int cont = 0 ;
+		if(usuarios!=null)
+		{		
+			List<Address> aux = usuarios;
+			usuarios = new_view.getMembers();
+			if(aux.size()<usuarios.size())
+				try {
+					Style style = chat.historico.addStyle("I'm a Style", null);
+			        StyleConstants.setForeground(style, Color.red);
+					chat.historico.getStyledDocument().insertString(chat.historico.getDocument().getLength(), 
+							(usuarios.get(usuarios.size()-1)+" entrou no chat\n"), style);
+				} catch (BadLocationException e) {
+					// 
+					e.printStackTrace();
+				}
+			else
+			{
+				for(int i = 0 ; i < usuarios.size() ; i++)
+				{
+					if(aux.get(i) !=  usuarios.get(i))
+					{
+						if(cont==0){
+							try {
+								Style style = chat.historico.addStyle("I'm a Style", null);
+						        StyleConstants.setForeground(style, Color.red);
+								chat.historico.getStyledDocument().insertString((chat.historico.getDocument().getLength()),("------"+aux.get(i)+" saiu do chat-------\n"), style);
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}//							
+							cont++;
+						}
+													
+					}					
+				}
+				if(cont==0)
+				{
+					try {
+						chat.historico.getStyledDocument().insertString((chat.historico.getDocument().getLength()),(aux.get(aux.size()-1)+" saiu do chat\n"), null);
+					} catch (BadLocationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}
+			atualizaUsuarios();
+		}
+		else
+		{
+			usuarios= new_view.getMembers();
+			atualizaUsuarios();
+		}
+        
     }
 	
 	public void receive(Message msg) {
-        String line=msg.getSrc() + ": " + msg.getObject();        
-        chat.historico.append(line+"\n");
+        String mensagem=msg.getSrc() + ": " + msg.getObject();                
+    	if(!verificaBloqueio(msg.getSrc().toString()))
+    	{
+    		try {
+				chat.historico.getStyledDocument().insertString((chat.historico.getDocument().getLength()),mensagem+"\n"	, null);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	
         synchronized(state) {
-            state.add(line);
+            state.add(mensagem);
         }
     }
-	
 
-	
-	
-	void start() throws Exception {	
-		String str = System.getProperty("user.dir");
-		str = str.concat(new String("\\udp.xml"));									
-        channel=new JChannel();   
-        channel.setReceiver(this);   
-        channel.connect(canal);           
-        channel.getProtocolStack().findProtocol(TP.class).setValue("bind_addr",InetAddress.getByName("192.168.0.103") );
-        
-        chat.canal.setText(canal);      
-        atualizaUsuarios();
-        id = usuarios.get(usuarios.size()-1);        
-    }
-	
 	
 	 void eventLoop() {        
         while(true) {
@@ -78,6 +133,8 @@ public class ChatControl extends ReceiverAdapter{
 	{
 		this.chat = view;		
 		this.canal = s;
+		
+		
 		view.enviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {										
 				if(view.mensagem.getText().equals("\n")||view.mensagem.getText().trim().equals(""))
@@ -93,6 +150,51 @@ public class ChatControl extends ReceiverAdapter{
 					view.mensagem.grabFocus();
 				}
 				
+			}
+		});
+		
+
+		view.bloquear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {							
+				
+				ArrayList<String> disponiveis = new ArrayList<>();
+				for(Address u : usuarios)
+				{				
+					if(   (!verificaBloqueio(u.toString())) && (!u.toString().equals(id.toString()))  )					
+						disponiveis.add(u.toString());					
+				}
+				
+				String usuario = (String)JOptionPane.showInputDialog(
+	                    null,
+	                    "Escolha o usuário a ser bloqueado",
+	                    "Bloqueio",
+	                    JOptionPane.PLAIN_MESSAGE,
+	                    null,
+	                    disponiveis.toArray(),null
+	                    );
+				
+				if((usuario!= null) && (usuario.length() > 0))				
+					bloqueados.add(usuario);
+			}
+		});
+		
+		view.desbloquear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {							
+				String usuario = (String)JOptionPane.showInputDialog(
+	                    null,
+	                    "Escolha o usuário a ser liberado",
+	                    "Bloqueio",
+	                    JOptionPane.PLAIN_MESSAGE,
+	                    null,
+	                    bloqueados.toArray(),null
+	                    );
+				
+				if((usuario!= null) && (usuario.length() > 0))				
+					bloqueados.remove(usuario);				
+
+					
+					
+					
 			}
 		});
 		
@@ -139,6 +241,18 @@ public class ChatControl extends ReceiverAdapter{
 			}
 		});
 	}
+
+	
+	private boolean verificaBloqueio(String src)
+	{
+					
+			if(bloqueados.contains(src))
+				return true;
+		
+		
+		
+		return false;
+	}
 	
 	private void atualizaUsuarios()
 	{		
@@ -165,4 +279,16 @@ public class ChatControl extends ReceiverAdapter{
 			e.printStackTrace();
 		}			        
 	}
+
+	void start() throws Exception {	
+		bloqueados = new ArrayList<>();
+		URL url = this.getClass().getResource("/udp.xml");
+		channel=new JChannel(url);   		
+        channel.setReceiver(this);         
+        channel.connect(canal);           
+        channel.getProtocolStack().findProtocol(TP.class).setValue("bind_addr",InetAddress.getByName("200.235.82.150") );        
+        chat.canal.setText(canal);                 
+        id = usuarios.get(usuarios.size()-1);        
+    }
+	
 }

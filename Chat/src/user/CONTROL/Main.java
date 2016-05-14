@@ -9,11 +9,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {				
 		System.setProperty("java.net.preferIPv4Stack" , "true");
-		CanaisView canais = new CanaisView();		
-//		ChatView chatView = new ChatView();
-
-//		new ChatControl(chatView).start();		
-				
+		CanaisView canais = new CanaisView();			
 	}
 
 }

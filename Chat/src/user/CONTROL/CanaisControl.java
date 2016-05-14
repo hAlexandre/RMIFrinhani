@@ -13,6 +13,16 @@ public class CanaisControl implements ActionListener{
 	public CanaisControl(CanaisView c)
 	{
 		view = c;
+//		deletar
+		try {
+			view.fechar();
+			ChatView chatView = new ChatView();	
+			ChatControl chat = new ChatControl(chatView, "TESTE");
+			chat.start();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+//		
 	}
 	
 //	Controlar entrada de canais
@@ -23,7 +33,6 @@ public class CanaisControl implements ActionListener{
 		try {
 			view.fechar();
 		} catch (Throwable e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		ChatView chatView = new ChatView();	
@@ -31,7 +40,6 @@ public class CanaisControl implements ActionListener{
 		try {
 			chat.start();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
